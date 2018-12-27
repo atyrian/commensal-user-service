@@ -1,0 +1,27 @@
+{
+    "extends": "airbnb",
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "global-require": "off",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
+        "no-undef": "off",
+        "no-param-reassign": "off",
+        "no-return-assign": "off",
+        "no-restricted-syntax": "off",
+        "no-restricted-globals": "off",
+        "array-callback-return": "off",
+        "consistent-return": "off",
+        "prefer-destructuring": "off",
+        "guard-for-in": "off"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "env": {
+        "es6": true
+    }
+}
