@@ -1,0 +1,48 @@
+service: commensal-user-service
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: eu-west-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource:
+        - arn:aws:dynamodb:eu-west-1:959782623357:table/commensal-user
+  environment:
+    REGION: ${self:provider.region}
+
+functions:  
+  userget:
+    handler: handler.userGet
+    events:
+      - http:
+          path: user/{id}
+          authorizer:
+            name: serviceAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token 
+          method: get
+          cors: false
+  userpost:
+    handler: handler.userPost
+    events:
+      - http:
+          path: user/{id}
+          authorizer: 
+            name: serviceAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: post
+          cors: false
+  serviceAuthorizer:
+    handler: handler.serviceAuthorizer
