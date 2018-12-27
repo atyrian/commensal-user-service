@@ -116,9 +116,3 @@ module.exports = class UserHandler {
     }
   }
 };
-
-/*
-user.Post() (and get) should be protected by service token lambda.
-make AWS authorizer without JWT first. Just like 1=1 logic
-figure out auto indent/format + eslint airbnb
-*/
