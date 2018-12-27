@@ -9,7 +9,7 @@ db.Users = dynogels.define('User', {
   hashKey: 'id',
   rangeKey: 'geohash',
   timestamps: true,
-  createdAt: 'created_at', // try having it here
+  createdAt: 'created_at',
   schema: {
     id: Joi.string(),
     geohash: Joi.string(),

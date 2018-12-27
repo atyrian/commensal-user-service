@@ -61,7 +61,7 @@ module.exports = class UserHttpHandler {
       id, name, birthday, gender,
     } = body;
 
-    if (this._isNullOrEmpty([id, name, birthday, gender])) throw new common.errors.HttpError('Malformed request body', 400); // check if body same as query string parameter
+    if (this._isNullOrEmpty([id, name, birthday, gender])) throw new common.errors.HttpError('Malformed request body', 400);
 
     if (this.event.pathParameters.id !== id) throw new common.errors.HttpError('Body id parameter not matching path parameter', 400);
 
