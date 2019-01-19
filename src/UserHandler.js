@@ -1,4 +1,5 @@
 const Db = require('./Database');
+const User = require('./domain/User');
 
 module.exports = class UserHandler {
   constructor(event) {
@@ -25,17 +26,14 @@ module.exports = class UserHandler {
     }
   }
 
-  _getUser(userId) {
-    return new Promise((resolve, reject) => {
-      Db.Users
-        .query(userId)
-        .exec((err, resp) => {
-          if (err) reject(err);
-          else {
-            resolve(resp);
-          }
-        });
-    });
+  async _getUser(userId) {
+    try {
+      const user = new User(userId);
+      await user.load();
+      return user;
+    } catch (err) {
+      return Promise.reject(err);
+    }
   }
 
   _createUser(userParams) {
