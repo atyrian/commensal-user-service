@@ -16,8 +16,10 @@
         "array-callback-return": "off",
         "consistent-return": "off",
         "prefer-destructuring": "off",
-        "guard-for-in": "off"
+        "guard-for-in": "off",
+        "no-unneeded-ternary": "off"
     },
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaVersion": 2017
     },

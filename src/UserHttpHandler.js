@@ -1,5 +1,6 @@
 const common = require('commensal-common');
 const UserHandler = require('./UserHandler');
+const userResponseModelFactory = require('./responseModelFactories/userResponseModelFactory');
 
 module.exports = class UserHttpHandler {
   constructor(event) {
@@ -12,12 +13,7 @@ module.exports = class UserHttpHandler {
         const userId = this._validatePathParameters();
         const userHandler = new UserHandler(this.event);
         const user = await userHandler.getUser(userId);
-        const response = {
-          body: JSON.stringify({ // generateUserResponse()?
-            data: user,
-            code: 200,
-          }),
-        };
+        const response = userResponseModelFactory(user);
         resolve(response);
       } catch (err) {
         reject(err);
