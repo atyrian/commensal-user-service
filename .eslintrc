@@ -17,7 +17,8 @@
         "consistent-return": "off",
         "prefer-destructuring": "off",
         "guard-for-in": "off",
-        "no-unneeded-ternary": "off"
+        "no-unneeded-ternary": "off",
+        "no-unused-expressions": "off"
     },
     "parser": "babel-eslint",
     "parserOptions": {

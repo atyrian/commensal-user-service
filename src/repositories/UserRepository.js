@@ -53,5 +53,6 @@ class UserRespository extends BaseRepository {
     }, { tableName: 'commensal-user' });
   }
 }
+dynogels.AWS.config.update({ region: process.env.REGION });
 
 module.exports = UserRespository;

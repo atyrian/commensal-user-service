@@ -1,4 +1,4 @@
-const Db = require('./Database');
+const common = require('commensal-common');
 const User = require('./domain/User');
 
 module.exports = class UserHandler {
@@ -37,51 +37,20 @@ module.exports = class UserHandler {
   }
 
   _createUser(userParams) {
+    const { id, ...params } = userParams;
+    const user = new User(id);
     return new Promise((resolve, reject) => {
-      Db.Users.create({
-        geohash: ' ',
-        id: `${userParams.id}`,
-        last_active: ' ',
-        match_id: [' '],
-        person: {
-          bio: ' ',
-          birthday: `${userParams.birthday}`,
-          fav_venues: {
-            venue_1: {},
-            venue_2: {},
-            venue_3: {},
-          },
-          gender: `${userParams.gender}`,
-          last_name: `${userParams.last_name}`,
-          name: `${userParams.name}`,
-          photos: {
-            photo_1: ' ',
-            photo_2: ' ',
-            photo_3: ' ',
-          },
-        },
-        pref: 0,
-        shown_to: [' '],
-      }, (err, user) => {
-        if (err) {
-          reject(err);
-        } else {
-          const resp = {
-
-            Items: [
-              user.get(),
-            ],
-
-          };
-          resolve(resp);
-        }
-      });
+      user.save(params)
+        .then((res) => {
+          resolve(res);
+        })
+        .catch(err => reject(err));
     });
   }
 
   _sanitizeData(userParams) {
     if (!userParams.name.match(/^[a-öA-Ö\s]*$/)) {
-      throw new Error('Illegal characters in name');
+      throw new common.errors.HttpError('Illegal characters in name', 400);
     }
 
     for (const value in userParams) {
