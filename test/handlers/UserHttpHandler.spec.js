@@ -140,9 +140,9 @@ describe('tests for UserHttpHandler.js', function () {
   });
 
   describe('get()', function () {
-    it('returns an object containing the user with requested id and a statusCode 200', function () {
+    it('returns response containing the user with requested id and a statusCode 200', function () {
       const handlerResp = { _entityRepository: {}, _id: '1', _loaded: true, _exists: true, Items: [{ id: '1' }], Count: 1, ScannedCount: 1 };
-      const userHandlerStub = sinon.stub(UserHandler.prototype, 'getUser').returns(handlerResp);
+      const userHandlerStub = sandbox.stub(UserHandler.prototype, 'getUser').returns(handlerResp);
 
       return expect(this.handler.get())
         .to.eventually.be.fulfilled
@@ -152,6 +152,24 @@ describe('tests for UserHttpHandler.js', function () {
           expect(resp.code).to.equal(200);
           expect(resp.data.Count).to.equal(handlerResp.Count);
           expect(resp.data.ScannedCount).to.equal(handlerResp.ScannedCount);
+          sinon.assert.calledOnce(userHandlerStub);
+        });
+    });
+  });
+
+  describe('post()', function () {
+    it('returns response with newly created user matching post parameters and a status 200', function () {
+      const handlerResp = { id: '10', person: { birthday: '08/11/1990', gender: 0, last_name: 'LastName', name: 'FirstName', }, created_at: '2019-01-25T21:22:50.574Z' };
+      const userHandlerStub = sandbox.stub(UserHandler.prototype, 'createUser').returns(handlerResp);
+
+      return expect(this.handler.post())
+        .to.eventually.be.fulfilled
+        .then((data) => {
+          const resp = JSON.parse(data.body);
+          expect(resp.code).to.equal(200);
+          expect(resp.data.id).to.equal(handlerResp.id);
+          expect(resp.data.created_at).to.exist;
+
           sinon.assert.calledOnce(userHandlerStub);
         });
     });
