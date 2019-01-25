@@ -152,6 +152,7 @@ describe('tests for UserHttpHandler.js', function () {
           expect(resp.code).to.equal(200);
           expect(resp.data.Count).to.equal(handlerResp.Count);
           expect(resp.data.ScannedCount).to.equal(handlerResp.ScannedCount);
+          
           sinon.assert.calledOnce(userHandlerStub);
         });
     });
@@ -169,7 +170,7 @@ describe('tests for UserHttpHandler.js', function () {
           expect(resp.code).to.equal(200);
           expect(resp.data.id).to.equal(handlerResp.id);
           expect(resp.data.created_at).to.exist;
-
+          
           sinon.assert.calledOnce(userHandlerStub);
         });
     });
