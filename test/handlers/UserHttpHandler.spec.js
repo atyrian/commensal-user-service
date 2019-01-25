@@ -127,7 +127,6 @@ describe('tests for UserHttpHandler.js', function () {
     });
 
     it('throws an error if event.body.id !== pathParameters.id', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.pathParameters.id = 'not 10';
       return expect(() => {
         this.handler._validatePostParameters()
