@@ -37,33 +37,30 @@ describe('tests for UserHttpHandler.js', function () {
     });
 
     it('throws an error if there is no pathParameters property', function () {
-      const spy = sinon.spy(this.handler, "_validatePathParameters");
-
       delete this.event.pathParameters;
-      try {
-        this.handler._validatePathParameters();
-      } catch (e) { }
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePathParameters()
+      }).to.throw('Bad request. Missing or malformed path param id')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if pathParameters.id is falsy', function () {
-      const spy = sinon.spy(this.handler, "_validatePathParameters");
-
       this.event.pathParameters.id = undefined;
-      try {
-        this.handler._validatePathParameters();
-      } catch (e) { }
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePathParameters()
+      }).to.throw('Bad request. Missing or malformed path param id')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if pathParameters.id is NaN', function () {
-      const spy = sinon.spy(this.handler, "_validatePathParameters");
-
       this.event.pathParameters.id = "not a numeric value";
-      try {
-        this.handler._validatePathParameters();
-      } catch (e) { }
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePathParameters()
+      }).to.throw('Bad request. Missing or malformed path param id')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
   });
 
@@ -76,66 +73,67 @@ describe('tests for UserHttpHandler.js', function () {
     });
 
     it('throws an error if there is no event.body', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       delete this.event.body
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Missing request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body is undefined', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.body = undefined
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Missing request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body: name is missing', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.body = '{ "gender": "male", "birthday": "08/11/1990", "id": "10" }';
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Malformed request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body: gender is missing', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.body = '{ "name": "FirstName LastName","birthday": "08/11/1990", "id": "10" }';
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Malformed request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body: birthday is missing', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.body = '{ "name": "FirstName LastName", "gender": "male", "id": "10" }';
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Malformed request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body: id is missing', function () {
-      const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.body = '{ "name": "FirstName LastName", "gender": "male", "birthday": "08/11/1990" }';
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Malformed request body')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
 
     it('throws an error if event.body.id !== pathParameters.id', function () {
       const spy = sinon.spy(this.handler, "_validatePostParameters");
       this.event.pathParameters.id = 'not 10';
-      try { this.handler._validatePostParameters(); }
-      catch (e) { }
-
-      return sinon.assert.threw(spy);
+      return expect(() => {
+        this.handler._validatePostParameters()
+      }).to.throw('Body id parameter not matching path parameter')
+        .that.has.property('statusCode')
+        .that.is.equal(400);
     });
   });
 
@@ -152,7 +150,7 @@ describe('tests for UserHttpHandler.js', function () {
           expect(resp.code).to.equal(200);
           expect(resp.data.Count).to.equal(handlerResp.Count);
           expect(resp.data.ScannedCount).to.equal(handlerResp.ScannedCount);
-          
+
           sinon.assert.calledOnce(userHandlerStub);
         });
     });
@@ -170,7 +168,7 @@ describe('tests for UserHttpHandler.js', function () {
           expect(resp.code).to.equal(200);
           expect(resp.data.id).to.equal(handlerResp.id);
           expect(resp.data.created_at).to.exist;
-          
+
           sinon.assert.calledOnce(userHandlerStub);
         });
     });
