@@ -12,7 +12,7 @@ class Entity {
     return this._load()
       .then((exists) => {
         if (exists) {
-          return this;
+          return Promise.resolve(this);
         }
         return Promise.reject(new common.errors.HttpError('Resource not found', 404));
       });
