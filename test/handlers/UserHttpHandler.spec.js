@@ -36,7 +36,7 @@ describe('tests for UserHttpHandler.js', function () {
       return sinon.assert.calledOnce(spy);
     });
 
-    it('throws an error if there is no pathParameters property', function () {
+    it('throws HTTP 400 if there is no pathParameters property', function () {
       delete this.event.pathParameters;
       return expect(() => {
         this.handler._validatePathParameters()
@@ -45,7 +45,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if pathParameters.id is falsy', function () {
+    it('throws HTTP 400 if pathParameters.id is falsy', function () {
       this.event.pathParameters.id = undefined;
       return expect(() => {
         this.handler._validatePathParameters()
@@ -54,7 +54,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if pathParameters.id is NaN', function () {
+    it('throws HTTP 400 if pathParameters.id is NaN', function () {
       this.event.pathParameters.id = "not a numeric value";
       return expect(() => {
         this.handler._validatePathParameters()
@@ -72,7 +72,7 @@ describe('tests for UserHttpHandler.js', function () {
       expect(value).to.deep.equal(params);
     });
 
-    it('throws an error if there is no event.body', function () {
+    it('throws HTTP 400 if there is no event.body', function () {
       delete this.event.body
       return expect(() => {
         this.handler._validatePostParameters()
@@ -81,7 +81,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body is undefined', function () {
+    it('throws HTTP 400 if event.body: is undefined', function () {
       this.event.body = undefined
       return expect(() => {
         this.handler._validatePostParameters()
@@ -90,7 +90,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body: name is missing', function () {
+    it('throws HTTP 400 if event.body: name is missing', function () {
       this.event.body = '{ "gender": "male", "birthday": "08/11/1990", "id": "10" }';
       return expect(() => {
         this.handler._validatePostParameters()
@@ -99,7 +99,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body: gender is missing', function () {
+    it('throws HTTP 400 if event.body: gender is missing', function () {
       this.event.body = '{ "name": "FirstName LastName","birthday": "08/11/1990", "id": "10" }';
       return expect(() => {
         this.handler._validatePostParameters()
@@ -108,7 +108,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body: birthday is missing', function () {
+    it('throws HTTP 400 if event.body: birthday is missing', function () {
       this.event.body = '{ "name": "FirstName LastName", "gender": "male", "id": "10" }';
       return expect(() => {
         this.handler._validatePostParameters()
@@ -117,7 +117,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body: id is missing', function () {
+    it('throws HTTP 400 if event.body: id is missing', function () {
       this.event.body = '{ "name": "FirstName LastName", "gender": "male", "birthday": "08/11/1990" }';
       return expect(() => {
         this.handler._validatePostParameters()
@@ -126,7 +126,7 @@ describe('tests for UserHttpHandler.js', function () {
         .that.is.equal(400);
     });
 
-    it('throws an error if event.body.id !== pathParameters.id', function () {
+    it('throws HTTP 400 if event.body.id !== pathParameters.id', function () {
       this.event.pathParameters.id = 'not 10';
       return expect(() => {
         this.handler._validatePostParameters()
