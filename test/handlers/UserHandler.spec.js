@@ -1,4 +1,3 @@
-const sinon = require("sinon");
 const chai = require('chai');
 const sandbox = require('sinon').createSandbox();
 const expect = require('chai').expect;
@@ -30,13 +29,13 @@ describe('tests for UserHandler.js', function () {
     });
 
     describe('helper methods', function () {
-        it('Strips HTML content', function () {
+        it('strips HTML content', function () {
             this.args.id = '<script>10</script>';
             this.handler._sanitizeData(this.args);
             return expect(this.args.id).to.equal('10');
         });
 
-        it('Throws HTTP 400 if name contains illegal characters', function () {
+        it('throws HTTP 400 if name contains illegal characters', function () {
             this.args.name = 'Firstname n0tl4stn4m3';
             return expect(() => {
                 this.handler._sanitizeData(this.args)
@@ -45,7 +44,7 @@ describe('tests for UserHandler.js', function () {
                 .that.is.equal(400);
         });
 
-        it('Ignores any word except first and second', function () {
+        it('ignores any word except first and second', function () {
             this.args.name = 'FirstName LastName ThirdName';
             this.handler._formatData(this.args);
 
@@ -54,7 +53,7 @@ describe('tests for UserHandler.js', function () {
             expect(this.args.name).to.equal('FirstName');
         });
 
-        it('Transforms the gender property into a numeric value', function () {
+        it('transforms the gender property into a numeric value', function () {
             this.handler._formatData(this.args);
             expect(this.args.gender).to.be.equal(0);
 
