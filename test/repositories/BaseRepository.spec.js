@@ -7,7 +7,7 @@ const BaseRepository = require('../../src/repositories/BaseRepository');
 chai.should();
 chai.use(require('chai-as-promised'));
 
-describe.only('tests for BaseRepository.js', function () {
+describe('tests for BaseRepository.js', function () {
   beforeEach(function () {
     this.event = {
       headers: { Authorization: ' Bearer 12345' },
