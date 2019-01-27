@@ -42,9 +42,9 @@ class BaseRepository {
 
   _validate(entity) {
     entity._entityRepository ? delete entity._entityRepository : null;
-    const allKeys = Object.keys(entity);
-    const keysNotValid = allKeys.filter(key => key.startsWith('_'));
-    keysNotValid.forEach(k => delete entity[k]);
+
+    Object.keys(entity).filter(key => key.startsWith('_'))
+      .forEach(k => delete entity[k]);
   }
 }
 
