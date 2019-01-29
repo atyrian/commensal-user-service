@@ -9,30 +9,28 @@ class User extends Entity {
   }
 
   save(params) {
-    this.populateEntity(params);
+    this.populateTemplate(userTemplate, params);
+    userTemplate.id = this._id;
+    _.assign(this, userTemplate);
+
     return this._save()
       .then(res => Promise.resolve(res))
       .catch(err => Promise.reject(err));
   }
-  // change to recursive function and subject to test!
 
-  populateEntity(params) {
-    userTemplate.id = this._id;
+  populateTemplate(template, params) {
     const paramKeys = Object.keys((params));
 
-    for (const property in userTemplate) {
-      if (paramKeys.includes(property)) {
-        userTemplate[property] = params[property];
+    for (const key in template) {
+      if (paramKeys.includes(key)) {
+        template[key] = params[key];
+        const index = paramKeys.indexOf(key);
+        paramKeys.splice(index, 1);
       }
-      if (typeof userTemplate[property] === 'object') {
-        for (const key in userTemplate[property]) {
-          if (paramKeys.includes(key)) {
-            userTemplate[property][key] = params[key];
-          }
-        }
+      if (typeof template[key] === 'object') {
+        this.populateTemplate(template[key], params);
       }
     }
-    _.assign(this, userTemplate);
   }
 }
 
