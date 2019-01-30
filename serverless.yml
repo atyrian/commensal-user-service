@@ -19,6 +19,10 @@ provider:
   environment:
     REGION: ${self:provider.region}
 
+package:
+  exclude:
+    - test/**
+
 functions:  
   userget:
     handler: handler.userGet

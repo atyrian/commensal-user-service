@@ -1,4 +1,5 @@
 const dynogels = require('dynogels');
+const common = require('commensal-common');
 
 class BaseRepository {
   constructor(name, definition, tableName, index) {
@@ -19,8 +20,16 @@ class BaseRepository {
     });
   }
 
-  create() {
-
+  create(entity) {
+    this._validate(entity);
+    return new Promise((resolve, reject) => {
+      this._db.create(entity, (err, resp) => {
+        if (err) {
+          reject(new common.errors.HttpError('Error saving user to database', 500));
+        }
+        resolve(resp);
+      });
+    });
   }
 
   update() {
@@ -29,6 +38,13 @@ class BaseRepository {
 
   destroy() {
 
+  }
+
+  _validate(entity) {
+    entity._entityRepository ? delete entity._entityRepository : null;
+
+    Object.keys(entity).filter(key => key.startsWith('_'))
+      .forEach(k => delete entity[k]);
   }
 }
 

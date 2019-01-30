@@ -8,37 +8,25 @@ module.exports = class UserHttpHandler {
   }
 
   async get() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const userId = this._validatePathParameters();
-        const userHandler = new UserHandler(this.event);
-        const user = await userHandler.getUser(userId);
-        const response = userResponseModelFactory(user);
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
+    const userId = this._validatePathParameters();
+    const userHandler = new UserHandler(this.event);
+    const user = await userHandler.getUser(userId);
+    const response = userResponseModelFactory(user);
+    return response;
   }
 
   async post() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this._validatePathParameters();
-        const userParams = this._validatePostParameters();
-        const userHandler = new UserHandler(this.event);
-        const user = await userHandler.createUser(userParams);
-        const response = {
-          body: JSON.stringify({
-            data: user,
-            code: 200,
-          }),
-        };
-        resolve(response);
-      } catch (err) {
-        reject(err);
-      }
-    });
+    this._validatePathParameters();
+    const userParams = this._validatePostParameters();
+    const userHandler = new UserHandler(this.event);
+    const user = await userHandler.createUser(userParams);
+    const response = {
+      body: JSON.stringify({
+        data: user,
+        code: 200,
+      }),
+    };
+    return response;
   }
 
   _validatePathParameters() {

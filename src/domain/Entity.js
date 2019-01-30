@@ -12,7 +12,7 @@ class Entity {
     return this._load()
       .then((exists) => {
         if (exists) {
-          return this;
+          return Promise.resolve(this);
         }
         return Promise.reject(new common.errors.HttpError('Resource not found', 404));
       });
@@ -30,6 +30,11 @@ class Entity {
         }
         return Promise.resolve(this._exists);
       });
+  }
+
+  _save() {
+    return this._entityRepository.create(this)
+      .then(res => Promise.resolve(res));
   }
 }
 
