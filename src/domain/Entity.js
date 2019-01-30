@@ -34,12 +34,7 @@ class Entity {
 
   _save() {
     return this._entityRepository.create(this)
-      .then((res) => {
-        if (res) {
-          return Promise.resolve(res);
-        }
-      })
-      .catch(err => Promise.reject(err));
+      .then(res => Promise.resolve(res));
   }
 }
 

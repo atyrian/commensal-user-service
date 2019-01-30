@@ -8,14 +8,13 @@ class User extends Entity {
     super(id, new UserRepository());
   }
 
-  save(params) {
+  async save(params) {
     this.populateTemplate(userTemplate, params);
     userTemplate.id = this._id;
     _.assign(this, userTemplate);
 
-    return this._save()
-      .then(res => Promise.resolve(res))
-      .catch(err => Promise.reject(err));
+    const response = await this._save();
+    return response;
   }
 
   populateTemplate(template, params) {

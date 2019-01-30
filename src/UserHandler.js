@@ -7,45 +7,28 @@ module.exports = class UserHandler {
   }
 
   async getUser(userId) {
-    try {
-      const user = await this._getUser(userId);
-      return user;
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    const user = await this._getUser(userId);
+    return user;
   }
 
   async createUser(userParams) {
-    try {
-      this._sanitizeData(userParams);
-      this._formatData(userParams);
-      const user = await this._createUser(userParams);
-      return user;
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    this._sanitizeData(userParams);
+    this._formatData(userParams);
+    const user = await this._createUser(userParams);
+    return user;
   }
 
   async _getUser(userId) {
-    try {
-      const user = new User(userId);
-      await user.load();
-      return user;
-    } catch (err) {
-      return Promise.reject(err);
-    }
+    const user = new User(userId);
+    await user.load();
+    return user;
   }
 
-  _createUser(userParams) {
+  async _createUser(userParams) {
     const { id, ...params } = userParams;
     const user = new User(id);
-    return new Promise((resolve, reject) => {
-      user.save(params)
-        .then((res) => {
-          resolve(res);
-        })
-        .catch(err => reject(err));
-    });
+    const response = await user.save(params);
+    return response;
   }
 
   _sanitizeData(userParams) {
