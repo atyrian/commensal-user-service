@@ -29,10 +29,13 @@ describe('tests for UserHandler.js', function () {
   });
 
   describe('helper methods', function () {
-    it('strips HTML content', function () {
+    it('strips HTML content, also in nested properties', function () {
       this.args.id = '<script>10</script>';
+      this.args.prop = { nested: '<script>xhr</script>' }
       this.handler._sanitizeData(this.args);
-      return expect(this.args.id).to.equal('10');
+
+      expect(this.args.id).to.equal('10');
+      expect(this.args.prop).to.deep.equal({ nested: 'xhr' });
     });
 
     it('throws HTTP 400 if name contains illegal characters', function () {
