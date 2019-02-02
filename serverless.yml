@@ -35,7 +35,7 @@ functions:
             identitySource: method.request.header.Authorization
             type: token 
           method: get
-          cors: false
+          cors: true
   userpost:
     handler: handler.userPost
     events:
@@ -47,6 +47,6 @@ functions:
             identitySource: method.request.header.Authorization
             type: token
           method: post
-          cors: false
+          cors: true
   serviceAuthorizer:
     handler: handler.serviceAuthorizer
