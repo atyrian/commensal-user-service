@@ -35,7 +35,7 @@ functions:
             identitySource: method.request.header.Authorization
             type: token 
           method: get
-          cors: true
+          cors: true # for testing purposes only
   userpost:
     handler: handler.userPost
     events:
@@ -47,6 +47,32 @@ functions:
             identitySource: method.request.header.Authorization
             type: token
           method: post
+          cors: true # for testing purposes only
+  accountget:
+    handler: handler.accountGet
+    events:
+      - http:
+          path: account/{id}
+          authorizer: 
+            name: userAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: get
+          cors: true
+  accountput:
+    handler: handler.accountPut
+    events:
+      - http:
+          path: account/{id}
+          authorizer: 
+            name: userAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: put
           cors: true
   serviceAuthorizer:
     handler: handler.serviceAuthorizer
+  userAuthorizer:
+    handler: handler.userAuthorizer

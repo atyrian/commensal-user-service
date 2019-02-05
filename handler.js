@@ -1,5 +1,6 @@
 const common = require('commensal-common');
 const UserHttpHandler = require('./src/UserHttpHandler');
+const AccountHttpHandler = require('./src/AccountHttpHandler');
 
 module.exports.userGet = common.aws.lambdaWrapper(
   (event) => {
@@ -31,13 +32,28 @@ module.exports.userDelete = common.aws.lambdaWrapper(
 
 module.exports.accountGet = common.aws.lambdaWrapper(
   (event) => {
-    // custom authorizer
+    const accountHttpHandler = new AccountHttpHandler(event);
+    return accountHttpHandler.get();
+  },
+);
+
+module.exports.accountPut = common.aws.lambdaWrapper(
+  (event) => {
+    const accountHttpHandler = new AccountHttpHandler(event);
+    return accountHttpHandler.put();
   },
 );
 
 module.exports.serviceAuthorizer = common.aws.lambdaWrapper(
   (event) => {
     const authorizer = new common.aws.ServiceAuthorizer(event);
+    return authorizer.authorize();
+  },
+);
+
+module.exports.userAuthorizer = common.aws.lambdaWrapper(
+  (event) => {
+    const authorizer = new common.aws.UserAuthorizer(event);
     return authorizer.authorize();
   },
 );
