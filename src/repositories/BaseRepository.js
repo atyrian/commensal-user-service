@@ -32,12 +32,36 @@ class BaseRepository {
     });
   }
 
-  update() {
-
+  update(entity, recentHash) {
+    this._validate(entity);
+    return new Promise((resolve, reject) => {
+      this._db.update(entity, { expected: { geohash: recentHash } }, (err, resp) => {
+        if (err) {
+          if (err.name === 'ConditionalCheckFailedException') {
+            return reject(new common.errors.HttpError('geohash out of sync', 400));
+          }
+          return reject(err);
+        }
+        return resolve(resp);
+      });
+    });
   }
 
-  destroy() {
+  async updateRangeKey(entity, recentHash) {
+    this._validate(entity);
+    await this.destroy(entity.id, recentHash);
+    const response = await this.create(entity);
 
+    return response;
+  }
+
+  destroy(id, geohash) {
+    return this._db.destroy(id, geohash, (err) => {
+      if (err) {
+        return Promise.reject(err);
+      }
+      return Promise.resolve(true);
+    });
   }
 
   _validate(entity) {

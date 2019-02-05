@@ -18,13 +18,23 @@ class Entity {
       });
   }
 
+  updateRangeKey(entity, recentHash) {
+    return this._entityRepository.updateRangeKey(entity, recentHash)
+      .then(res => Promise.resolve(res));
+  }
+
+  _update(entity, recentHash) {
+    return this._entityRepository.update(entity, recentHash)
+      .then(res => Promise.resolve(res));
+  }
+
   _load() {
     if (this._loaded) Promise.resolve(this._exists);
 
     return this._entityRepository.getById(this._id)
       .then((entity) => {
         this._loaded = true;
-        this._exists = entity ? true : false;
+        this._exists = entity.Count > 0 ? true : false;
         if (this._exists) {
           _.assign(this, entity);
         }

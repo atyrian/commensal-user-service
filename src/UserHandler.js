@@ -18,6 +18,12 @@ module.exports = class UserHandler {
     return user;
   }
 
+  async updateUser(params) {
+    this._sanitizeData(params);
+    const response = this._updateUser(params);
+    return response;
+  }
+
   async _getUser(userId) {
     const user = new User(userId);
     await user.load();
@@ -29,6 +35,16 @@ module.exports = class UserHandler {
     const user = new User(id);
     const response = await user.save(params);
     return response;
+  }
+
+  async _updateUser(params) {
+    const user = new User(this.event.pathParameters.id);
+    await user.load();
+    if (user._exists) {
+      const response = await user.update(params); // catch specific error and retry?
+      return response;
+    }
+    throw new common.errors.HttpError('User not found', 404);
   }
 
   _sanitizeData(userParams) {
