@@ -44,7 +44,7 @@ describe('tests for Entity.js', function () {
     it('resolves a promise with true when user is found', function () {
       const entity = new Entity('10', new UserRepository());
       sandbox.stub(BaseRepository.prototype, 'getById')
-        .returns(Promise.resolve({ user: 'dummy user' }));
+        .returns(Promise.resolve({ user: 'dummy user', Count: 1 }));
       return expect(entity._load())
         .to.eventually.be.fulfilled
         .then((data) => {
@@ -56,7 +56,7 @@ describe('tests for Entity.js', function () {
     it('resolves a promise with false when user does not exist', function () {
       const entity = new Entity('10', new UserRepository());
       sandbox.stub(BaseRepository.prototype, 'getById')
-        .returns(Promise.resolve(null));
+        .returns(Promise.resolve({ Count: 0 }));
       return expect(entity._load())
         .to.eventually.be.fulfilled
         .then((data) => {
@@ -67,7 +67,7 @@ describe('tests for Entity.js', function () {
     it('merges the returned entity with its this value when _exists', function () {
       const entity = new Entity('10', new UserRepository());
       sandbox.stub(BaseRepository.prototype, 'getById')
-        .returns(Promise.resolve({ testUser: 'testData' }));
+        .returns(Promise.resolve({ testUser: 'testData', Count: 1 }));
       return expect(entity._load())
         .to.eventually.be.fulfilled
         .then(() => {
