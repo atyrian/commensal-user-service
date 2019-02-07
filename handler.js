@@ -1,6 +1,6 @@
 const common = require('commensal-common');
-const UserHttpHandler = require('./src/UserHttpHandler');
-const AccountHttpHandler = require('./src/AccountHttpHandler');
+const UserHttpHandler = require('./src/httpHandlers/UserHttpHandler');
+const AccountHttpHandler = require('./src/httpHandlers/AccountHttpHandler');
 
 module.exports.userGet = common.aws.lambdaWrapper(
   (event) => {

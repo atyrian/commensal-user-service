@@ -18,13 +18,13 @@ class Entity {
       });
   }
 
-  updateRangeKey(entity, recentHash) {
-    return this._entityRepository.updateRangeKey(entity, recentHash)
+  delete(id, lastKnownGeoHash) {
+    return this._entityRepository.destroy(id, lastKnownGeoHash)
       .then(res => Promise.resolve(res));
   }
 
-  _update(entity, recentHash) {
-    return this._entityRepository.update(entity, recentHash)
+  _update(entity, lastKnownGeoHash) {
+    return this._entityRepository.update(entity, lastKnownGeoHash)
       .then(res => Promise.resolve(res));
   }
 
@@ -42,8 +42,8 @@ class Entity {
       });
   }
 
-  _save() {
-    return this._entityRepository.create(this)
+  _save(entity) {
+    return this._entityRepository.create(entity)
       .then(res => Promise.resolve(res));
   }
 }

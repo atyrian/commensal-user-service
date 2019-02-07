@@ -1,7 +1,7 @@
 const common = require('commensal-common');
-const UserHandler = require('./UserHandler');
-const accountResponseModelFactory = require('./responseModelFactories/accountResponseModelFactory');
-const { updateRequestParameters } = require('./constants/parameters');
+const UserHandler = require('../UserHandler');
+const accountResponseModelFactory = require('../responseModelFactories/accountResponseModelFactory');
+const { updateRequestParameters } = require('../constants/parameters');
 
 module.exports = class AccountHttpHandler {
   constructor(event) {

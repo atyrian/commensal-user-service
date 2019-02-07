@@ -41,7 +41,7 @@ module.exports = class UserHandler {
     const user = new User(this.event.pathParameters.id);
     await user.load();
     if (user._exists) {
-      const response = await user.update(params); // catch specific error and retry?
+      const response = await user.update(params);
       return response;
     }
     throw new common.errors.HttpError('User not found', 404);

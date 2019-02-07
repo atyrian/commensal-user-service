@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 chai.should();
 chai.use(require('chai-as-promised'));
 
-const UserHttpHandler = require('../../src/UserHttpHandler');
+const UserHttpHandler = require('../../src/httpHandlers/UserHttpHandler');
 const UserHandler = require('../../src/UserHandler');
 
 
