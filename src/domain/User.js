@@ -13,20 +13,21 @@ class User extends Entity {
     userTemplate.id = this._id;
     _.assign(this, userTemplate);
 
-    const response = await this._save();
+    const response = await this._save(this);
     return response;
   }
 
   async update(params) {
     const { attrs } = this.Items[0];
-    const { geohash: recentHash } = attrs;
+    const { geohash: lastKnownGeoHash } = attrs;
     this.populateTemplate(attrs, params);
 
-    if (params.geohash && params.geohash === recentHash) {
-      return this._update(attrs, recentHash);
+    if (params.geohash && params.geohash === lastKnownGeoHash) {
+      return this._update(attrs, lastKnownGeoHash);
     }
     // DynamoDB does not support updating hash or range keys.
-    const response = await this.updateRangeKey(attrs, recentHash);
+    await this.delete(attrs.id, lastKnownGeoHash);
+    const response = this._save(attrs);
     return response;
   }
 
