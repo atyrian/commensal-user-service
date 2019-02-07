@@ -1,6 +1,6 @@
 const common = require('commensal-common');
-const UserHandler = require('./UserHandler');
-const userResponseModelFactory = require('./responseModelFactories/userResponseModelFactory');
+const UserHandler = require('../UserHandler');
+const userResponseModelFactory = require('../responseModelFactories/userResponseModelFactory');
 
 module.exports = class UserHttpHandler {
   constructor(event) {
