@@ -23,6 +23,9 @@ package:
   exclude:
     - test/**
 
+custom:
+  scope: co_us
+
 functions:  
   userget:
     handler: handler.userGet
