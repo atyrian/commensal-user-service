@@ -9,8 +9,9 @@ const accountResponseModelFactory = (user) => {
     body: JSON.stringify({
       data: {
         person,
-        match_id,
         geohash,
+        id,
+        match_id,
       },
       code: 200,
     }),
