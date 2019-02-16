@@ -20,12 +20,12 @@ class Entity {
 
   delete(id, lastKnownGeoHash) {
     return this._entityRepository.destroy(id, lastKnownGeoHash)
-      .then(res => Promise.resolve(res));
+      .then(res => res);
   }
 
   _update(entity, lastKnownGeoHash) {
     return this._entityRepository.update(entity, lastKnownGeoHash)
-      .then(res => Promise.resolve(res));
+      .then(res => res);
   }
 
   _load() {
@@ -44,7 +44,7 @@ class Entity {
 
   _save(entity) {
     return this._entityRepository.create(entity)
-      .then(res => Promise.resolve(res));
+      .then(res => res);
   }
 }
 
