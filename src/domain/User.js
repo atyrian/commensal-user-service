@@ -18,7 +18,7 @@ class User extends Entity {
   }
 
   async update(params) {
-    const { model } = this.Items[0];
+    const { attrs: model } = this.Items[0];
     const { geohash: lastKnownGeoHash } = model;
     this.populateTemplate(model, params);
 
