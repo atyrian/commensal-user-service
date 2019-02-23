@@ -12,7 +12,6 @@
         "no-param-reassign": "off",
         "no-return-assign": "off",
         "no-restricted-syntax": "off",
-        "no-restricted-globals": "off",
         "array-callback-return": "off",
         "consistent-return": "off",
         "prefer-destructuring": "off",
