@@ -11,6 +11,7 @@ module.exports = class UserHttpHandler {
     const userId = this._validatePathParameters();
     const userHandler = new UserHandler(this.event);
     const user = await userHandler.getUser(userId);
+
     const response = userResponseModelFactory(user);
     return response;
   }
@@ -31,7 +32,7 @@ module.exports = class UserHttpHandler {
 
   _validatePathParameters() {
     const { pathParameters } = this.event;
-    if (!pathParameters || !pathParameters.id || isNaN(pathParameters.id)) {
+    if (!pathParameters || !pathParameters.id || Number.isNaN(Number(pathParameters.id))) {
       throw new common.errors.HttpError('Bad request. Missing or malformed path param id', 400);
     }
     return pathParameters.id;

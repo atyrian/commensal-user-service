@@ -27,7 +27,7 @@ module.exports = class AccountHttpHandler {
 
   _validatePathParameters() {
     const { pathParameters } = this.event;
-    if (!pathParameters || !pathParameters.id || isNaN(pathParameters.id)) {
+    if (!pathParameters || !pathParameters.id || Number.isNaN(Number(pathParameters.id))) {
       throw new common.errors.HttpError('Bad request. Missing or malformed path param id', 400);
     }
     return pathParameters.id;
