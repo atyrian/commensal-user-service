@@ -6,7 +6,6 @@ class UserRespository extends BaseRepository {
   constructor() {
     super('User', {
       hashKey: 'id',
-      rangeKey: 'geohash',
       timestamps: true,
       createdAt: 'created_at',
       schema: {

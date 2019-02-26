@@ -36,9 +36,6 @@ module.exports = class AccountHttpHandler {
   _validateRequestBody() {
     if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
 
-    const body = JSON.parse(this.event.body);
-    if (!body.geohash) throw new common.errors.HttpError('Bad request. geohash required', 400);
-
     Object.keys(body)
       .forEach((key) => {
         if (!updateRequestParameters.includes(key)) {

@@ -32,14 +32,11 @@ class BaseRepository {
     });
   }
 
-  update(entity, lastKnownGeoHash) {
+  update(entity) {
     this._validate(entity);
     return new Promise((resolve, reject) => {
-      this._db.update(entity, { expected: { geohash: lastKnownGeoHash } }, (err, resp) => {
+      this._db.update(entity, (err, resp) => {
         if (err) {
-          if (err.name === 'ConditionalCheckFailedException') {
-            return reject(new common.errors.HttpError('geohash out of sync', 400));
-          }
           return reject(err);
         }
         return resolve(resp);
@@ -47,9 +44,9 @@ class BaseRepository {
     });
   }
 
-  destroy(id, geohash) {
+  destroy(id) {
     return new Promise((resolve, reject) => {
-      this._db.destroy(id, geohash, (err) => {
+      this._db.destroy(id, (err) => {
         if (err) {
           return reject(err);
         }
