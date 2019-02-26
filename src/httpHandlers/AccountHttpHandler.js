@@ -27,7 +27,7 @@ module.exports = class AccountHttpHandler {
 
   _validatePathParameters() {
     const { pathParameters } = this.event;
-    if (!pathParameters || !pathParameters.id || isNaN(pathParameters.id)) {
+    if (!pathParameters || !pathParameters.id || Number.isNaN(Number(pathParameters.id))) {
       throw new common.errors.HttpError('Bad request. Missing or malformed path param id', 400);
     }
     return pathParameters.id;
@@ -35,9 +35,6 @@ module.exports = class AccountHttpHandler {
 
   _validateRequestBody() {
     if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
-
-    const body = JSON.parse(this.event.body);
-    if (!body.geohash) throw new common.errors.HttpError('Bad request. geohash required', 400);
 
     Object.keys(body)
       .forEach((key) => {

@@ -18,13 +18,13 @@ class Entity {
       });
   }
 
-  delete(id, lastKnownGeoHash) {
-    return this._entityRepository.destroy(id, lastKnownGeoHash)
+  delete(id) {
+    return this._entityRepository.destroy(id)
       .then(res => res);
   }
 
-  _update(entity, lastKnownGeoHash) {
-    return this._entityRepository.update(entity, lastKnownGeoHash)
+  _update(entity) {
+    return this._entityRepository.update(entity)
       .then(res => res);
   }
 

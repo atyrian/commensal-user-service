@@ -19,16 +19,8 @@ class User extends Entity {
 
   async update(params) {
     const { attrs: model } = this.Items[0];
-    const { geohash: lastKnownGeoHash } = model;
     this.populateTemplate(model, params);
-
-    if (params.geohash && params.geohash === lastKnownGeoHash) {
-      return this._update(model, lastKnownGeoHash);
-    }
-    // DynamoDB does not support updating hash or range keys.
-    await this.delete(model.id, lastKnownGeoHash);
-    const response = this._save(model);
-    return response;
+    return this._update(model);
   }
 
   populateTemplate(template, params) {
