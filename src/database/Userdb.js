@@ -53,9 +53,12 @@ const User = dynogels.define('User', {
 });
 
 const partialUpdate = data => new Promise((resolve, reject) => {
-  User.update(data, (err, user) => {
+  User.update(data, { expected: { id: { Exists: true } } }, (err, user) => {
+    if (err && err.ConditionalCheckFailedException) {
+      return reject(new common.errors.HttpError(`User with id ${data.id} not found`, 500));
+    }
     if (err) {
-      reject(new common.errors.HttpError('Error updating user', 500));
+      return reject(new common.errors.HttpError('Error updating user', 500));
     }
     return resolve({ id: user.get('id'), success: true });
   });

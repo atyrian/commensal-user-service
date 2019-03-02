@@ -1,6 +1,7 @@
 const common = require('commensal-common');
 const UserHandler = require('../UserHandler');
 const userResponseModelFactory = require('../responseModelFactories/userResponseModelFactory');
+const DatabaseHandler = require('../dbHandler');
 
 module.exports = class UserHttpHandler {
   constructor(event) {
@@ -14,6 +15,21 @@ module.exports = class UserHttpHandler {
 
     const response = userResponseModelFactory(user);
     return response;
+  }
+
+  async put() {
+    if (this.event.path.match('/user/.[0-9]*/partial$')) {
+      const id = this._validatePathParameters();
+      const params = this._validatePutParameters();
+      params.id = id;
+
+      const dbHandler = new DatabaseHandler();
+      const res = await dbHandler.partialUpdate(params);
+      const response = { body: JSON.stringify({ data: res, code: 200 }) };
+      return response;
+    }
+
+    throw new common.errors.HttpError(`HTTP PUT not supported for endpoint: ${this.event.path}`, 405);
   }
 
   async post() {
@@ -53,6 +69,19 @@ module.exports = class UserHttpHandler {
     const userParams = {
       id, name, birthday, gender,
     };
+    return userParams;
+  }
+
+  _validatePutParameters() {
+    if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
+
+    const body = JSON.parse(this.event.body);
+    const { shown_to } = body;
+
+    if (this._isNullOrEmpty([shown_to])) throw new common.errors.HttpError('Malformed request body', 400);
+    if (Number.isNaN(Number(shown_to))) throw new common.errors.HttpError('Bad request. shown_to must be numeric', 400);
+
+    const userParams = { shown_to };
     return userParams;
   }
 

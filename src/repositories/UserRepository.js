@@ -49,7 +49,7 @@ class UserRespository extends BaseRepository {
           allowUnknown: false,
         },
       },
-    }, { tableName: 'commensal-user' });
+    }, { tableName: process.env.TABLE_NAME });
   }
 }
 dynogels.AWS.config.update({ region: process.env.REGION });
