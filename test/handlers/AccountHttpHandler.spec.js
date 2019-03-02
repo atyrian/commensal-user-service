@@ -32,15 +32,6 @@ describe('tests for AccountHttpHandler.js', function () {
     });
   });
   describe('_validateRequestBody()', function () {
-    it('throws HTTP 400 if geohash is not in the request body', function () {
-      this.event.body = '{ "bio": "Hello mangs!", "photo_1": "https://photo1", "venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" }, "venue_3": { "venue_name": "burgerchef" }, "photo_2": "https://photo2" }';
-
-      return expect(() => {
-        this.handler._validateRequestBody();
-      }).to.throw('Bad request. geohash required')
-        .that.has.property('statusCode')
-        .that.is.equal(400);
-    });
     it('throws HTTP 400 if body contains illegal parameters', function () {
       this.event.body = '{ "someKey":"someValue", "bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": { "venue_name": "burgerchef" }, "photo_2": "https://photo2"}';
 
