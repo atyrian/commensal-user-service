@@ -18,6 +18,7 @@ provider:
         - arn:aws:dynamodb:eu-west-1:959782623357:table/commensal-user
   environment:
     REGION: ${self:provider.region}
+    TABLE_NAME: commensal-user
 
 package:
   exclude:
@@ -51,6 +52,18 @@ functions:
             type: token
           method: post
           cors: true # for testing purposes only
+  userput:
+    handler: handler.userPut
+    events:
+      - http:
+          path: user/{id}/{proxy+}
+          authorizer: 
+            name: serviceAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: put
+          cors: true # for testing purposes only
   accountget:
     handler: handler.accountGet
     events:
@@ -62,19 +75,31 @@ functions:
             identitySource: method.request.header.Authorization
             type: token
           method: get
-          cors: true
+          cors: true # public facing API
   accountput:
     handler: handler.accountPut
     events:
       - http:
-          path: account/{id}
+          path: account/{id}/{proxy+}
           authorizer: 
             name: userAuthorizer
             resultTtlInSeconds: 0
             identitySource: method.request.header.Authorization
             type: token
           method: put
-          cors: true
+          cors: true # public facing API
+  usersmatch:
+    handler: handler.usersPut
+    events:
+      - http:
+          path: users/{proxy+}
+          authorizer: 
+            name: serviceAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: put
+          cors: true # for testing purposes only
   serviceAuthorizer:
     handler: handler.serviceAuthorizer
   userAuthorizer:

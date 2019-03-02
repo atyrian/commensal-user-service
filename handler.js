@@ -1,5 +1,6 @@
 const common = require('commensal-common');
 const UserHttpHandler = require('./src/httpHandlers/UserHttpHandler');
+const UsersHttpHandler = require('./src/httpHandlers/UsersHttpHandler');
 const AccountHttpHandler = require('./src/httpHandlers/AccountHttpHandler');
 
 module.exports.userGet = common.aws.lambdaWrapper(
@@ -27,6 +28,13 @@ module.exports.userDelete = common.aws.lambdaWrapper(
   (event) => {
     const userHttpHandler = new UserHttpHandler(event);
     return userHttpHandler.delete();
+  },
+);
+
+module.exports.usersPut = common.aws.lambdaWrapper(
+  (event) => {
+    const usersHttpHandler = new UsersHttpHandler(event);
+    return usersHttpHandler.usersPut();
   },
 );
 
