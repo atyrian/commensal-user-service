@@ -36,7 +36,7 @@ describe('tests for AccountHttpHandler.js', function () {
       this.event.body = '{ "someKey":"someValue", "bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": { "venue_name": "burgerchef" }, "photo_2": "https://photo2"}';
 
       return expect(() => {
-        this.handler._validateRequestBody();
+        this.handler._validateRequestBody(true);
       }).to.throw()
         .that.has.property('statusCode')
         .that.is.equal(400);
@@ -45,7 +45,7 @@ describe('tests for AccountHttpHandler.js', function () {
       this.event.body = '{"bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": "stringVal", "photo_2": "https://photo2"}';
 
       return expect(() => {
-        this.handler._validateRequestBody();
+        this.handler._validateRequestBody(true);
       }).to.throw('Venue parameter must be of type object')
         .that.has.property('statusCode')
         .that.is.equal(400);
