@@ -76,11 +76,23 @@ functions:
             type: token
           method: get
           cors: true # public facing API
-  accountput:
+  accountputprofile:
     handler: handler.accountPut
     events:
       - http:
-          path: account/{id}/{proxy+}
+          path: account/{id}/profile
+          authorizer: 
+            name: userAuthorizer
+            resultTtlInSeconds: 0
+            identitySource: method.request.header.Authorization
+            type: token
+          method: put
+          cors: true # public facing API
+  accountputsearchparams:
+    handler: handler.accountPut
+    events:
+      - http:
+          path: account/{id}/searchparams 
           authorizer: 
             name: userAuthorizer
             resultTtlInSeconds: 0

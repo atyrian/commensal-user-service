@@ -2,7 +2,6 @@ const userDB = require('./database/Userdb');
 const { stringSetAppendKeys } = require('./constants/parameters');
 
 module.exports = class DatabaseHandler {
-
   async partialUpdate(params) {
     const { id } = params;
     delete params.id;
