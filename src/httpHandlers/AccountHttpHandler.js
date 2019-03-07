@@ -3,7 +3,7 @@ const UserHandler = require('../UserHandler');
 const accountResponseModelFactory = require('../responseModelFactories/accountResponseModelFactory');
 const { updateRequestParameters } = require('../constants/parameters');
 const DatabaseHandler = require('../dbHandler');
-const searchParamsValidation = require('../validation/accountSearchParams');
+const searchParamsValidation = require('../validation/account/searchParams');
 const Validator = require('../validation/validator');
 
 module.exports = class AccountHttpHandler {
