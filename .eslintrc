@@ -18,7 +18,8 @@
         "guard-for-in": "off",
         "no-unneeded-ternary": "off",
         "no-unused-expressions": "off",
-        "camelcase": "off"
+        "camelcase": "off",
+        "prefer-template": "off"
     },
     "parser": "babel-eslint",
     "parserOptions": {

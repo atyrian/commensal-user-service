@@ -1,9 +1,10 @@
 const common = require('commensal-common');
+const moment = require('moment');
 const UserHandler = require('../UserHandler');
 const accountResponseModelFactory = require('../responseModelFactories/accountResponseModelFactory');
-const { updateRequestParameters } = require('../constants/parameters');
 const DatabaseHandler = require('../dbHandler');
 const searchParamsValidation = require('../validation/account/searchParams');
+const profileValidation = require('../validation/account/profile');
 const Validator = require('../validation/validator');
 
 module.exports = class AccountHttpHandler {
@@ -21,23 +22,26 @@ module.exports = class AccountHttpHandler {
 
   async put() {
     if (this.event.path.match('/account/.[0-9]*/profile$')) {
+      this._requestBodyExists(this.event.body);
       this._validatePathParameters();
-      const params = this._validateRequestBody(true);
+      const values = Validator.validate(this.event.body, profileValidation.updateProfile);
       const userHandler = new UserHandler(this.event);
-      const data = await userHandler.updateUser(params);
+      const data = await userHandler.updateUser(values);
 
       return this._generateResponse(data);
     }
 
     if (this.event.path.match('/account/.[0-9]*/searchparams$')) {
+      this._requestBodyExists(this.event.body);
       const id = this._validatePathParameters();
       const values = Validator.validate(this.event.body, searchParamsValidation.updateSearchParams);
       const { pref, geohash } = values;
-      const params = { geohash, pref: parseInt(pref, 10) };
+      const last_active = moment().unix() + '';
+      const params = { geohash, pref: parseInt(pref, 10), last_active };
       params.id = id;
+
       const dbHandler = new DatabaseHandler();
       const res = await dbHandler.partialUpdate(params);
-
       return this._generateResponse(res);
     }
     throw new common.errors.HttpError(`HTTP PUT not supported for endpoint: ${this.event.path}`, 405);
@@ -51,22 +55,8 @@ module.exports = class AccountHttpHandler {
     return pathParameters.id;
   }
 
-  _validateRequestBody() {
-    if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
-
-    const body = JSON.parse(this.event.body);
-    Object.keys(body)
-      .forEach((key) => {
-        if (!updateRequestParameters.includes(key)) {
-          throw new common.errors.HttpError(`Bad request. Invalid key ${key} in request body`, 400);
-        }
-        if (key === updateRequestParameters[5]
-          || key === updateRequestParameters[6]
-          || key === updateRequestParameters[7]) {
-          if (typeof body[key] !== 'object') throw new common.errors.HttpError('Venue parameter must be of type object', 400);
-        }
-      });
-    return body;
+  _requestBodyExists(body) {
+    if (!body || Object.entries(body).length === 0 || body === null || typeof body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
   }
 
   _generateResponse(data) {
@@ -77,12 +67,5 @@ module.exports = class AccountHttpHandler {
       }),
     };
     return response;
-  }
-
-  _isNullOrEmpty(params) {
-    const nullOrEmpty = params.filter((param) => {
-      if (!param || param === '') return true;
-    });
-    return nullOrEmpty.length > 0;
   }
 };
