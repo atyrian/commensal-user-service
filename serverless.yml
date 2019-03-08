@@ -104,7 +104,7 @@ functions:
     handler: handler.usersPut
     events:
       - http:
-          path: users/{proxy+}
+          path: users/match
           authorizer: 
             name: serviceAuthorizer
             resultTtlInSeconds: 0

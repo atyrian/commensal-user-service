@@ -16,14 +16,14 @@ module.exports = class UsersHttpHandler {
   }
 
   async updateMatches() {
-    const params = this._validateMatchRequestParameters();
+    const params = this._validateQueryParameters();
     const dbHandler = new DatabaseHandler();
     const res = await dbHandler.partialUpdate(params);
     const response = { body: JSON.stringify({ data: res, code: 200 }) };
     return response;
   }
 
-  _validateMatchRequestParameters() {
+  _validateQueryParameters() {
     const { queryStringParameters, multiValueQueryStringParameters } = this.event;
 
     if (!queryStringParameters
