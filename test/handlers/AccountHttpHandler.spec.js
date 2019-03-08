@@ -31,22 +31,13 @@ describe('tests for AccountHttpHandler.js', function () {
         .that.is.equal(400);
     });
   });
-  describe('_validateRequestBody()', function () {
-    it('throws HTTP 400 if body contains illegal parameters', function () {
-      this.event.body = '{ "someKey":"someValue", "bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": { "venue_name": "burgerchef" }, "photo_2": "https://photo2"}';
+  describe('_requestBodyExists()', function () {
+    it('throws HTTP 400 if body is empty or null', function () {
+      this.event.body = '{}';
 
       return expect(() => {
-        this.handler._validateRequestBody();
+        this.handler._requestBodyExists();
       }).to.throw()
-        .that.has.property('statusCode')
-        .that.is.equal(400);
-    });
-    it('throws HTTP 400 if typeof venue_1/2/3 key is not object', function () {
-      this.event.body = '{"bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": "stringVal", "photo_2": "https://photo2"}';
-
-      return expect(() => {
-        this.handler._validateRequestBody();
-      }).to.throw('Venue parameter must be of type object')
         .that.has.property('statusCode')
         .that.is.equal(400);
     });
