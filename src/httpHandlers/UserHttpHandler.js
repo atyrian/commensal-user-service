@@ -2,6 +2,10 @@ const common = require('commensal-common');
 const UserHandler = require('../UserHandler');
 const userResponseModelFactory = require('../responseModelFactories/userResponseModelFactory');
 const DatabaseHandler = require('../dbHandler');
+const Validator = require('../validation/validator');
+const partialValidation = require('../validation/user/partial');
+const userValidation = require('../validation/user/user');
+
 
 module.exports = class UserHttpHandler {
   constructor(event) {
@@ -20,11 +24,11 @@ module.exports = class UserHttpHandler {
   async put() {
     if (this.event.path.match('/user/.[0-9]*/partial$')) {
       const id = this._validatePathParameters();
-      const params = this._validatePutParameters();
-      params.id = id;
+      const values = Validator.validate(this.event.body, partialValidation.updatePartial);
+      values.id = id;
 
       const dbHandler = new DatabaseHandler();
-      const res = await dbHandler.partialUpdate(params);
+      const res = await dbHandler.partialUpdate(values);
       const response = { body: JSON.stringify({ data: res, code: 200 }) };
       return response;
     }
@@ -34,9 +38,9 @@ module.exports = class UserHttpHandler {
 
   async post() {
     this._validatePathParameters();
-    const userParams = this._validatePostParameters();
+    const values = Validator.validate(this.event.body, userValidation.createUser);
     const userHandler = new UserHandler(this.event);
-    const user = await userHandler.createUser(userParams);
+    const user = await userHandler.createUser(values);
     const response = {
       body: JSON.stringify({
         data: user,
@@ -52,43 +56,5 @@ module.exports = class UserHttpHandler {
       throw new common.errors.HttpError('Bad request. Missing or malformed path param id', 400);
     }
     return pathParameters.id;
-  }
-
-  _validatePostParameters() {
-    if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
-
-    const body = JSON.parse(this.event.body);
-    const {
-      id, name, birthday, gender,
-    } = body;
-
-    if (this._isNullOrEmpty([id, name, birthday, gender])) throw new common.errors.HttpError('Malformed request body', 400);
-
-    if (this.event.pathParameters.id !== id) throw new common.errors.HttpError('Body id parameter not matching path parameter', 400);
-
-    const userParams = {
-      id, name, birthday, gender,
-    };
-    return userParams;
-  }
-
-  _validatePutParameters() {
-    if (!this.event.body || this.event.body === null || typeof this.event.body === 'undefined') throw new common.errors.HttpError('Missing request body', 400);
-
-    const body = JSON.parse(this.event.body);
-    const { shown_to } = body;
-
-    if (this._isNullOrEmpty([shown_to])) throw new common.errors.HttpError('Malformed request body', 400);
-    if (Number.isNaN(Number(shown_to))) throw new common.errors.HttpError('Bad request. shown_to must be numeric', 400);
-
-    const userParams = { shown_to };
-    return userParams;
-  }
-
-  _isNullOrEmpty(params) {
-    const nullOrEmpty = params.filter((param) => {
-      if (!param || param === '' || typeof param !== 'string') return true;
-    });
-    return nullOrEmpty.length > 0;
   }
 };

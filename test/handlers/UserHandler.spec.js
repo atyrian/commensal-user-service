@@ -37,16 +37,7 @@ describe('tests for UserHandler.js', function () {
       expect(this.args.id).to.equal('10');
       expect(this.args.prop).to.deep.equal({ nested: 'xhr' });
     });
-
-    it('throws HTTP 400 if name contains illegal characters', function () {
-      this.args.name = 'Firstname n0tl4stn4m3';
-      return expect(() => {
-        this.handler._sanitizeData(this.args)
-      }).to.throw('Illegal characters in name')
-        .that.has.property('statusCode')
-        .that.is.equal(400);
-    });
-
+    
     it('ignores any word except first and second', function () {
       this.args.name = 'FirstName LastName ThirdName';
       this.handler._formatData(this.args);
