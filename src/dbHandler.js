@@ -11,8 +11,7 @@ module.exports = class DatabaseHandler {
     paramKeys
       .filter(paramKey => stringSetAppendKeys.includes(paramKey))
       .forEach((stringSetKey) => {
-        const value = params[stringSetKey];
-        params[stringSetKey] = { $add: value };
+        params[stringSetKey] = { $add: params[stringSetKey] };
       });
 
     if (Array.isArray(id)) {

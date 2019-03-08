@@ -52,11 +52,11 @@ functions:
             type: token
           method: post
           cors: true # for testing purposes only
-  userput:
+  userputpartial:
     handler: handler.userPut
     events:
       - http:
-          path: user/{id}/{proxy+}
+          path: user/{id}/partial
           authorizer: 
             name: serviceAuthorizer
             resultTtlInSeconds: 0

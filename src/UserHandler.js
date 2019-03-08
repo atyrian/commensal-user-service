@@ -48,10 +48,6 @@ module.exports = class UserHandler {
   }
 
   _sanitizeData(userParams) {
-    if (userParams.name && !userParams.name.match(/^[a-öA-Ö\s]*$/)) {
-      throw new common.errors.HttpError('Illegal characters in name', 400);
-    }
-
     for (const value in userParams) {
       if (typeof userParams[value] === 'string') {
         userParams[value] = this._stripHTML(userParams[value]);
