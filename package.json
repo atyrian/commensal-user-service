@@ -16,7 +16,8 @@
     "dynogels": "^9.0.0",
     "eslint-config-airbnb": "^17.1.0",
     "joi": "^14.3.0",
-    "lodash": "^4.17.11"
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
