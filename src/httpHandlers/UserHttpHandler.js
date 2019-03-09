@@ -24,7 +24,7 @@ module.exports = class UserHttpHandler {
   async put() {
     if (this.event.path.match('/user/.[0-9]*/partial$')) {
       const id = this._validatePathParameters();
-      const values = Validator.validate(this.event.body, partialValidation.updatePartial);
+      const values = Validator.validate(this.event.body, partialValidation.updatePartial, { shown_to: 'Expected numeric value' });
       values.id = id;
 
       const dbHandler = new DatabaseHandler();
