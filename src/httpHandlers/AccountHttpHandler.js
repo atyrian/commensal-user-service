@@ -21,7 +21,7 @@ module.exports = class AccountHttpHandler {
   }
 
   async put() {
-    if (this.event.path.match('/account/.[0-9]*/profile$')) {
+    if (this.event.path.match('/account/id/.[0-9]*/profile$')) {
       this._requestBodyExists(this.event.body);
       this._validatePathParameters();
       const values = Validator.validate(this.event.body, profileValidation.updateProfile);

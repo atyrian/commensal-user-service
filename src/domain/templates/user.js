@@ -15,9 +15,9 @@ const userTemplate = {
     last_name: ' ',
     name: ' ',
     photos: {
+      photo_0: ' ',
       photo_1: ' ',
       photo_2: ' ',
-      photo_3: ' ',
     },
   },
   pref: 0,

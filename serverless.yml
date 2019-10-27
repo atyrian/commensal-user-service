@@ -80,7 +80,7 @@ functions:
     handler: handler.accountPut
     events:
       - http:
-          path: account/{id}/profile
+          path: account/id/{id}/profile
           authorizer: 
             name: userAuthorizer
             resultTtlInSeconds: 0
