@@ -4,9 +4,9 @@ const profile = {
   // PUT /account/profile
   updateProfile: {
     bio: Joi.string().max(250, 'utf8'),
-    photo_1: Joi.string(), // probably FB url pattern match.
+    photo_0: Joi.string(), // TODO probably FB url pattern match.
+    photo_1: Joi.string(),
     photo_2: Joi.string(),
-    photo_3: Joi.string(),
     venue_1: {
       venue_location: Joi.string(),
       venue_name: Joi.string(),

@@ -38,9 +38,9 @@ const User = dynogels.define('User', {
       name: Joi.string().required(),
       birthday: Joi.string().required(),
       photos: {
+        photo_0: Joi.string().allow(''),
         photo_1: Joi.string().allow(''),
         photo_2: Joi.string().allow(''),
-        photo_3: Joi.string().allow(''),
       },
     },
     pref: Joi.number(),

@@ -33,7 +33,7 @@ describe('tests for User.js', function () {
         gender: ' ',
         last_name: ' ',
         name: ' ',
-        photos: { photo_1: ' ', photo_2: ' ', photo_3: ' ' }
+        photos: { photo_0: ' ', photo_1: ' ', photo_2: ' ' }
       },
       pref: 0,
       shown_to: [' ']
