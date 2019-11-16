@@ -68,7 +68,7 @@ functions:
     handler: handler.accountGet
     events:
       - http:
-          path: account/{id}
+          path: account/id/{id}
           authorizer: 
             name: userAuthorizer
             resultTtlInSeconds: 0
