@@ -16,18 +16,18 @@ class UserRespository extends BaseRepository {
         person: {
           bio: Joi.string().allow(''),
           fav_venues: {
-            venue_1: {
+            venue_0: {
               venue_location: Joi.string(),
               venue_name: Joi.string(),
               venue_photo: Joi.string(),
             },
-            venue_2: {
+            venue_1: {
               venue_location: Joi.string(),
               venue_name: Joi.string(),
               venue_photo: Joi.string(),
 
             },
-            venue_3: {
+            venue_2: {
               venue_location: Joi.string(),
               venue_name: Joi.string(),
               venue_photo: Joi.string(),
