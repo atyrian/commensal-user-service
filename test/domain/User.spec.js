@@ -29,7 +29,7 @@ describe('tests for User.js', function () {
       {
         bio: ' ',
         birthday: ' ',
-        fav_venues: { venue_1: {}, venue_2: {}, venue_3: {} },
+        fav_venues: { venue_0: {}, venue_1: {}, venue_2: {} },
         gender: ' ',
         last_name: ' ',
         name: ' ',

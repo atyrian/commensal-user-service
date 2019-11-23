@@ -13,7 +13,7 @@ describe('tests for AccountHttpHandler.js', function () {
   beforeEach(function () {
     this.event = {
       pathParameters: { id: '10' },
-      body: '{ "bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_1": { "venue_name": "tacobell" }, "venue_2": { "venue_name": "mcduck" },"venue_3": { "venue_name": "burgerchef" }, "photo_2": "https://photo2"}'
+      body: '{ "bio": "Hello mangs!","geohash": " ","photo_1": "https://photo1","venue_0": { "venue_name": "tacobell" }, "venue_1": { "venue_name": "mcduck" },"venue_2": { "venue_name": "burgerchef" }, "photo_2": "https://photo2"}'
     }
     this.handler = new AccountHttpHandler(this.event);
   });

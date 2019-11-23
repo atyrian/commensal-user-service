@@ -7,17 +7,17 @@ const profile = {
     photo_0: Joi.string(), // TODO probably FB url pattern match.
     photo_1: Joi.string(),
     photo_2: Joi.string(),
+    venue_0: {
+      venue_location: Joi.string(),
+      venue_name: Joi.string(),
+      venue_photo: Joi.string(),
+    },
     venue_1: {
       venue_location: Joi.string(),
       venue_name: Joi.string(),
       venue_photo: Joi.string(),
     },
     venue_2: {
-      venue_location: Joi.string(),
-      venue_name: Joi.string(),
-      venue_photo: Joi.string(),
-    },
-    venue_3: {
       venue_location: Joi.string(),
       venue_name: Joi.string(),
       venue_photo: Joi.string(),

@@ -7,9 +7,9 @@ const userTemplate = {
     bio: ' ',
     birthday: ' ',
     fav_venues: {
+      venue_0: {},
       venue_1: {},
       venue_2: {},
-      venue_3: {},
     },
     gender: ' ',
     last_name: ' ',
