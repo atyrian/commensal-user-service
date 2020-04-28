@@ -74,7 +74,7 @@ describe('tests for UserHttpHandler.js', function () {
         .then((data) => {
           const resp = JSON.parse(data.body);
           expect(resp.data.Items[0].id).to.equal(handlerResp._id);
-          expect(resp.code).to.equal(200);
+          expect(resp.status).to.equal(200);
           expect(resp.data.Count).to.equal(handlerResp.Count);
           expect(resp.data.ScannedCount).to.equal(handlerResp.ScannedCount);
 
@@ -92,7 +92,7 @@ describe('tests for UserHttpHandler.js', function () {
         .to.eventually.be.fulfilled
         .then((data) => {
           const resp = JSON.parse(data.body);
-          expect(resp.code).to.equal(200);
+          expect(resp.status).to.equal(200);
           expect(resp.data.id).to.equal(handlerResp.id);
           expect(resp.data.created_at).to.exist;
 

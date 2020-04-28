@@ -13,7 +13,7 @@ const accountResponseModelFactory = (user) => {
         id,
         match_id,
       },
-      code: 200,
+      status: 200,
     }),
   };
 

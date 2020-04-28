@@ -59,7 +59,7 @@ describe('tests for AccountHttpHandler.js', function () {
         .to.eventually.be.fulfilled
         .then((data) => {
           const resp = JSON.parse(data.body);
-          expect(resp.code).to.equal(200);
+          expect(resp.status).to.equal(200);
           expect(resp.data.id).to.exist
           expect(resp.data.geohash).to.exist
           expect(resp.data.person).to.exist
