@@ -19,7 +19,7 @@ module.exports = class UsersHttpHandler {
     const params = this._validateQueryParameters();
     const dbHandler = new DatabaseHandler();
     const res = await dbHandler.partialUpdate(params);
-    const response = { body: JSON.stringify({ data: res, code: 200 }) };
+    const response = { body: JSON.stringify({ data: res, status: 200 }) };
     return response;
   }
 

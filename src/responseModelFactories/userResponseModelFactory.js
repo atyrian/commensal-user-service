@@ -6,8 +6,9 @@ const userResponseModelFactory = (user) => {
   const response = {
     body: JSON.stringify({
       data,
-      code: 200,
+      status: 200,
     }),
+    statusCode: 200,
   };
 
   return response;

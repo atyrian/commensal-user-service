@@ -63,7 +63,7 @@ module.exports = class AccountHttpHandler {
     const response = {
       body: JSON.stringify({
         data,
-        code: 200,
+        status: 200,
       }),
     };
     return response;

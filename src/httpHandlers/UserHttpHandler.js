@@ -6,7 +6,6 @@ const Validator = require('../validation/validator');
 const partialValidation = require('../validation/user/partial');
 const userValidation = require('../validation/user/user');
 
-
 module.exports = class UserHttpHandler {
   constructor(event) {
     this.event = event;
@@ -29,7 +28,7 @@ module.exports = class UserHttpHandler {
 
       const dbHandler = new DatabaseHandler();
       const res = await dbHandler.partialUpdate(values);
-      const response = { body: JSON.stringify({ data: res, code: 200 }) };
+      const response = { body: JSON.stringify({ data: res, status: 200 }) };
       return response;
     }
 
@@ -44,7 +43,7 @@ module.exports = class UserHttpHandler {
     const response = {
       body: JSON.stringify({
         data: user,
-        code: 200,
+        status: 200,
       }),
     };
     return response;
